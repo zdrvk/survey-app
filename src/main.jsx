@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
 import './index.css';
 import router from './router.jsx';
-import { RouterProvider } from 'react-router-dom';
+import { BrowserRouter, RouterProvider } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
@@ -11,8 +10,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </React.StrictMode>
     // OR
     // <React.StrictMode>
-    //   <BrowserRouter>
-    //      <App />
-    //   </BrowserRouter>
+    //     <BrowserRouter>
+    //         <App />
+    //     </BrowserRouter>
     // </React.StrictMode>
 );
