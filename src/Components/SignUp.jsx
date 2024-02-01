@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import Login from './Login';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axiosClient from '../axios';
+import { useStateContext } from '../Contexts/ContextProvider';
 
 export default function SignUp() {
+    const { setCurrentUser, setUserToken } = useStateContext();
     const [fullName, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,7 +14,7 @@ export default function SignUp() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        setError({ __html: '' });
+
         axiosClient
             .post('/signup', {
                 name: fullName,
@@ -21,7 +23,8 @@ export default function SignUp() {
                 password_confirmation: passwordConfirmation,
             })
             .then(({ data }) => {
-                console.log(data);
+                setCurrentUser(data.user);
+                setUserToken(data.token);
             })
             .catch((error) => {
                 if (error.response) {
