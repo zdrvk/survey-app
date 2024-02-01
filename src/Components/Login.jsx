@@ -1,6 +1,37 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axiosClient from '../axios';
+import { useStateContext } from '../Contexts/ContextProvider';
 
 export default function Login() {
+    const { setCurrentUser, setUserTokenMethod } = useStateContext();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState({ __html: '' });
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        axiosClient
+            .post('/login', {
+                email: email,
+                password: password,
+            })
+            .then(({ data }) => {
+                setCurrentUser(data.user);
+                setUserTokenMethod(data.token);
+            })
+            .catch((error) => {
+                if (error.response && error.response.data && error.response.data.errors) {
+                    const finalErrors = Object.values(error.response.data.errors).reduce(
+                        (accum, next) => [...accum, ...next],
+                        []
+                    );
+                    setError({ __html: finalErrors.join('<br>') });
+                }
+                console.log(error);
+            });
+    };
     return (
         <>
             <h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
@@ -8,7 +39,7 @@ export default function Login() {
             </h2>
 
             <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
-                <form className='space-y-3' action='#' method='POST'>
+                <form onSubmit={onSubmit} className='space-y-3' action='#' method='POST'>
                     <div>
                         <label
                             htmlFor='email'
@@ -23,6 +54,8 @@ export default function Login() {
                                 type='email'
                                 autoComplete='email'
                                 required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
                                 className='block w-full rounded-t-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                             />
                         </div>
@@ -36,14 +69,6 @@ export default function Login() {
                             >
                                 Password
                             </label>
-                            <div className='text-sm'>
-                                <a
-                                    href='#'
-                                    className='font-semibold text-indigo-600 hover:text-indigo-500'
-                                >
-                                    Forgot password?
-                                </a>
-                            </div>
                         </div>
                         <div className=''>
                             <input
@@ -52,6 +77,8 @@ export default function Login() {
                                 type='password'
                                 autoComplete='current-password'
                                 required
+                                requiredvalue={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className='block w-full rounded-b-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                             />
                         </div>
@@ -66,14 +93,19 @@ export default function Login() {
                         </button>
                     </div>
                 </form>
-
+                {error.__html && (
+                    <div
+                        className='bg-red-500 rounded py-2 px-3 text-white mt-8'
+                        dangerouslySetInnerHTML={error}
+                    ></div>
+                )}
                 <p className='mt-10 text-center text-sm text-gray-500'>
                     Not a member?{' '}
                     <Link
                         to='/signup'
                         className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'
                     >
-                        Sign up for a free account!
+                        Sign up for free!
                     </Link>
                 </p>
             </div>
