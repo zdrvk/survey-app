@@ -187,10 +187,10 @@ const tempSurveys = [
 
 export const ContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState({});
-    const [userToken, setUserToken] = useState(localStorage.getItem('TOKEN') || '');
+    const [userToken, setUserToken] = useState(localStorage.getItem('TOKEN') || null);
     const [surveys, setSurveys] = useState(tempSurveys);
 
-    const setTokenMethod = (token) => {
+    const setUserTokenMethod = (token) => {
         if (token) {
             localStorage.setItem('TOKEN', token);
         } else {
@@ -207,6 +207,7 @@ export const ContextProvider = ({ children }) => {
                 userToken,
                 setUserToken,
                 surveys,
+                setUserTokenMethod,
             }}
         >
             {children}
