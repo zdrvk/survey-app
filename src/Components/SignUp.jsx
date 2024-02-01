@@ -5,7 +5,7 @@ import axiosClient from '../axios';
 import { useStateContext } from '../Contexts/ContextProvider';
 
 export default function SignUp() {
-    const { setCurrentUser, setUserTokenMethod } = useStateContext();
+    const { setCurrentUser, setUserToken } = useStateContext();
     const [fullName, setFullname] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,7 +24,7 @@ export default function SignUp() {
             })
             .then(({ data }) => {
                 setCurrentUser(data.user);
-                setUserTokenMethod(data.token);
+                setUserToken(data.token);
             })
             .catch((error) => {
                 if (error.response) {

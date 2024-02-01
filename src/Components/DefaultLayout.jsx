@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { NavLink, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
+import axiosClient from '../axios';
 
 const navigation = [
     { name: 'Dashboard', to: '/' },
@@ -15,16 +16,19 @@ function classNames(...classes) {
 }
 
 export default function DefaulLayout() {
-    const logout = (e) => {
-        e.preventDefault();
-        console.log('logout');
-    };
-
-    const { currentUser, userToken } = useStateContext();
+    const { currentUser, userToken, setCurrentUser, setUserTokenMethod } = useStateContext();
 
     if (!userToken) {
         return <Navigate to='login' />;
     }
+
+    const logout = (e) => {
+        e.preventDefault();
+        axiosClient.post('/logout').then((res) => {
+            setCurrentUser({});
+            setUserTokenMethod(null);
+        });
+    };
 
     return (
         <>

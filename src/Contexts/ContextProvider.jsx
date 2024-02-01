@@ -187,7 +187,7 @@ const tempSurveys = [
 
 export const ContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState({});
-    const [userToken, setUserToken] = useState(localStorage.getItem('TOKEN') || null);
+    const [userToken, setUserToken] = useState(localStorage.getItem('TOKEN') || '');
     const [surveys, setSurveys] = useState(tempSurveys);
 
     const setUserTokenMethod = (token) => {
