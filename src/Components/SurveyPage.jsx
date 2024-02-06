@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import Page from './Page';
 import { PhotoIcon } from '@heroicons/react/24/outline';
+import axiosClient from '../axios';
+import TButton from './TButton';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function SurveyPage() {
+    const navigate = useNavigate();
+
     const [survey, setSurvey] = useState({
         title: '',
         slug: '',
@@ -14,13 +19,33 @@ export default function SurveyPage() {
         questions: [],
     });
 
-    const onImageChoose = () => {
-        console.log('choose image');
+    const onImageChoose = (e) => {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setSurvey({
+                ...survey,
+                image: file,
+                image_url: reader.result,
+            });
+
+            e.target.value = '';
+        };
+        reader.readAsDataURL(file);
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(e);
+        console.log(survey);
+        const payload = { ...survey };
+        if (payload.image) {
+            payload.image = payload.image_url;
+        }
+        delete payload.image_url;
+
+        axiosClient.post('/survey', payload).then((res) => {});
+        navigate('/surveys');
     };
 
     return (
@@ -140,6 +165,9 @@ export default function SurveyPage() {
                             </div>
                         </div>
                         {/*Active*/}
+                        <div className=' px-4 py-3 text-right sm:px-6'>
+                            <TButton>Save</TButton>
+                        </div>
                     </div>
                 </div>
             </form>
