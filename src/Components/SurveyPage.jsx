@@ -4,6 +4,7 @@ import { PhotoIcon } from '@heroicons/react/24/outline';
 import axiosClient from '../axios';
 import TButton from './TButton';
 import { Navigate, useNavigate } from 'react-router-dom';
+import SurveyQuestions from './SurveyQuestions';
 
 export default function SurveyPage() {
     const navigate = useNavigate();
@@ -55,32 +56,11 @@ export default function SurveyPage() {
                 setError(error.response.data);
                 console.log(error);
             });
-        // axiosClient
-        //     .post('/survey', payload)
-        //     .then((res) => {
-        //         console.log(res);
-        //         navigate('/surveys');
-        //     })
-        //     .catch((error) => {
-        //         if (error.response && error.response.data && error.response.data.errors) {
-        //             const errorMessages = [];
-        //             const errors = error.response.data.errors;
-        //             for (const field in errors) {
-        //                 if (errors.hasOwnProperty(field)) {
-        //                     const fieldErrors = errors[field];
-        //                     fieldErrors.forEach((errorMessage) => {
-        //                         errorMessages.push(`${field}: ${errorMessage}`);
-        //                     });
-        //                 }
-        //             }
-        //             const errorMessage = errorMessages.join('<br><br>');
-        //             setError(errorMessage);
-        //         } else {
-        //             setError('An error occurred. Please try again later.');
-        //         }
-        //         console.log(error);
-        //     });
     };
+
+    function onSurveyUpdate(survey) {
+        setSurvey({ ...survey });
+    }
 
     return (
         <Page title='Create new survey'>
@@ -88,7 +68,7 @@ export default function SurveyPage() {
                 <div className='shadow sm:overflow-hidden sm:rounded-md'>
                     <div className='space-y-6 bg-white px-4 py-5 sm:p-6'>
                         <div>
-                            <label className='block text-sm font-medium text-gray-700'>Photo</label>
+                            <label className='block text-xl font-bold text-gray-700'>Photo</label>
                             <div className='mt-1 flex items-center'>
                                 {survey.image_url && (
                                     <img
@@ -119,7 +99,7 @@ export default function SurveyPage() {
                         <div className='col-span-6 sm:col-span-3'>
                             <label
                                 htmlFor='title'
-                                className='block text-sm font-medium text-gray-700'
+                                className='block text-xl font-bold text-gray-700'
                             >
                                 Survey Title
                             </label>
@@ -140,7 +120,7 @@ export default function SurveyPage() {
                         <div className='col-span-6 sm:col-span-3'>
                             <label
                                 htmlFor='description'
-                                className='block text-sm font-medium text-gray-700'
+                                className='block text-xl font-bold text-gray-700'
                             >
                                 Description
                             </label>
@@ -161,7 +141,7 @@ export default function SurveyPage() {
                         <div className='col-span-6 sm:col-span-3'>
                             <label
                                 htmlFor='expire_date'
-                                className='block text-sm font-medium text-gray-700'
+                                className='block text-xl font-bold text-gray-700'
                             >
                                 Expire Date
                             </label>
@@ -180,34 +160,36 @@ export default function SurveyPage() {
                             {error?.errors?.expire_date && error.errors.expire_date}
                         </small>
                         {/*Expire Date*/}
-                        {/*Active*/}
-                        <div className='flex items-start'>
-                            <div className='flex h-5 items-center'>
-                                <input
-                                    id='status'
-                                    name='status'
-                                    type='checkbox'
-                                    checked={survey.status}
-                                    onChange={(e) =>
-                                        setSurvey({ ...survey, status: e.target.checked })
-                                    }
-                                    className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
-                                />
-                            </div>
-                            <div className='ml-3 text-sm'>
-                                <label htmlFor='comments' className='font-medium text-gray-700'>
-                                    Active
-                                </label>
-                                <p className='text-gray-500'>
-                                    Whether to make survey publicly available
-                                </p>
-                            </div>
-                        </div>
 
-                        {/*Active*/}
+                        <SurveyQuestions survey={survey} onSurveyUpdate={onSurveyUpdate} />
+
                         <div className=' px-4 py-3 text-right sm:px-6 flex flex-col sm:flex-row gap-6'>
-                            <div>
+                            <div className='flex flex-row gap-6'>
                                 <TButton>Save</TButton>
+                                {/*Active*/}
+                                <div className='flex items-start self-center'>
+                                    <div className='flex h-5 items-center'>
+                                        <input
+                                            id='status'
+                                            name='status'
+                                            type='checkbox'
+                                            checked={survey.status}
+                                            onChange={(e) =>
+                                                setSurvey({ ...survey, status: e.target.checked })
+                                            }
+                                            className='h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+                                        />
+                                    </div>
+                                    <div className='ml-3 text-sm'>
+                                        <label
+                                            htmlFor='comments'
+                                            className='font-medium text-gray-700'
+                                        >
+                                            Make&nbsp;active
+                                        </label>
+                                    </div>
+                                </div>
+                                {/*Active*/}
                             </div>
                             {error && (
                                 <div className='bg-red-500 text-white py-2 px-3 rounded-lg w-full text-left'>
