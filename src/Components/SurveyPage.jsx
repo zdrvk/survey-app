@@ -58,8 +58,11 @@ export default function SurveyPage() {
             });
     };
 
-    function onSurveyUpdate(survey) {
-        setSurvey({ ...survey });
+    function onQuestionsUpdate(questions) {
+        setSurvey({
+            ...survey,
+            questions,
+        });
     }
 
     return (
@@ -161,7 +164,10 @@ export default function SurveyPage() {
                         </small>
                         {/*Expire Date*/}
 
-                        <SurveyQuestions survey={survey} onSurveyUpdate={onSurveyUpdate} />
+                        <SurveyQuestions
+                            questions={survey.questions}
+                            onQuestionsUpdate={onQuestionsUpdate}
+                        />
 
                         <div className=' px-4 py-3 text-right sm:px-6 flex flex-col sm:flex-row gap-6'>
                             <div className='flex flex-row gap-6'>

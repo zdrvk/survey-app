@@ -3,50 +3,43 @@ import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import QuestionEditor from './QuestionEditor';
 
-export default function SurveyQuestions({ survey, onSurveyUpdate }) {
-    const [model, setModel] = useState({ ...survey });
+export default function SurveyQuestions({ questions, onQuestionsUpdate }) {
+    const [myQuestions, setMyQuestions] = useState([...questions]);
 
     const addQuestion = (index) => {
-        const newIndex = index !== 0 ? index : model.questions.length;
-
-        model.questions.splice(newIndex, 0, {
+        const newIndex = index !== 0 ? index : myQuestions.length;
+        myQuestions.splice(newIndex, 0, {
             id: uuidv4(),
             type: 'text',
             question: '',
             description: '',
             data: {},
         });
-        setModel({
-            ...model,
-            questions: [...model.questions],
-        });
+        setMyQuestions([...myQuestions]);
+        onQuestionsUpdate(myQuestions);
     };
-    // debugger;
+
     const questionChange = (question) => {
         if (!question) return;
-        const newQuestion = model.questions.map((q) => {
+        const newQuestion = myQuestions.map((q) => {
             if (q.id === question.id) {
                 return { ...question };
             }
             return q;
         });
-        setModel({
-            ...model,
-            questions: newQuestion,
-        });
+        setMyQuestions(newQuestion);
+        onQuestionsUpdate(newQuestion);
     };
 
     const deleteQuestion = (question) => {
-        const newQuestions = model.questions.filter((q) => q.id !== question.id);
-        setModel({
-            ...model,
-            questions: newQuestions,
-        });
+        const newQuestions = myQuestions.filter((q) => q.id !== question.id);
+        setMyQuestions(newQuestions);
+        onQuestionsUpdate(newQuestions);
     };
 
     useEffect(() => {
-        onSurveyUpdate(model);
-    }, [model]);
+        setMyQuestions(questions);
+    }, [questions]);
 
     return (
         <>
@@ -61,8 +54,8 @@ export default function SurveyQuestions({ survey, onSurveyUpdate }) {
                     Add Question
                 </button>
             </div>
-            {model.questions.length ? (
-                model.questions.map((q, index) => (
+            {myQuestions.length ? (
+                myQuestions.map((q, index) => (
                     <QuestionEditor
                         key={q.id}
                         index={index}
