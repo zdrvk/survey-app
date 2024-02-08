@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Page from './Page';
 import { PhotoIcon } from '@heroicons/react/24/outline';
 import axiosClient from '../axios';
 import TButton from './TButton';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import SurveyQuestions from './SurveyQuestions';
 
 export default function SurveyPage() {
     const navigate = useNavigate();
     const [error, setError] = useState('');
+    const { id } = useParams();
 
     const [survey, setSurvey] = useState({
         title: '',
@@ -65,8 +66,16 @@ export default function SurveyPage() {
         });
     }
 
+    useEffect(() => {
+        if (id) {
+            axiosClient.get(`/survey/${id}`).then(({ data }) => {
+                setSurvey(data.data);
+            });
+        }
+    }, []);
+
     return (
-        <Page title='Create new survey'>
+        <Page title={!id ? 'Create new survey' : 'Update survey'}>
             <form action='#' method='POST' onSubmit={onSubmit}>
                 <div className='shadow sm:overflow-hidden sm:rounded-md'>
                     <div className='space-y-6 bg-white px-4 py-5 sm:p-6'>
