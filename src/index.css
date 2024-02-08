@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a.disabled {
+    pointer-events: none; /* Prevents click events */
+    opacity: 0.5; /* Makes the element visually appear disabled */
+}
