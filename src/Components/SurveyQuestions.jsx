@@ -6,22 +6,22 @@ import QuestionEditor from './QuestionEditor';
 export default function SurveyQuestions({ survey, onSurveyUpdate }) {
     const [model, setModel] = useState({ ...survey });
 
-    const addQuestion = () => {
+    const addQuestion = (index) => {
+        const newIndex = index !== 0 ? index : model.questions.length;
+
+        model.questions.splice(newIndex, 0, {
+            id: uuidv4(),
+            type: 'text',
+            question: '',
+            description: '',
+            data: {},
+        });
         setModel({
             ...model,
-            questions: [
-                ...model.questions,
-                {
-                    id: uuidv4(),
-                    type: 'text',
-                    question: '',
-                    description: '',
-                    data: {},
-                },
-            ],
+            questions: [...model.questions],
         });
     };
-
+    // debugger;
     const questionChange = (question) => {
         if (!question) return;
         const newQuestion = model.questions.map((q) => {
@@ -55,7 +55,7 @@ export default function SurveyQuestions({ survey, onSurveyUpdate }) {
                 <button
                     type='button'
                     className='flex items-center text-sm py-1 px-4 text-white bg-gray-500 hover:bg-gray-700 rounded-md'
-                    onClick={addQuestion}
+                    onClick={() => addQuestion(0)}
                 >
                     <PlusIcon className='w-4 mr-2' />
                     Add Question
