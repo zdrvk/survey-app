@@ -68,7 +68,7 @@ export default function QuestionEditor({
                         type='text'
                         name='question'
                         id='question'
-                        value={model.question}
+                        value={model.question || ''}
                         onChange={(e) => setModel({ ...model, question: e.target.value })}
                         className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
                     />
@@ -83,13 +83,13 @@ export default function QuestionEditor({
                     <select
                         id='questionType'
                         name='questionType'
-                        value={model.type}
+                        value={model.type || ''}
                         // onChange={onTypeChange}
                         onChange={(e) => setModel({ ...model, type: e.target.value })}
                         className='mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                     >
                         {questionTypes.map((type) => (
-                            <option value={type} key={type}>
+                            <option value={type || ''} key={type}>
                                 {upperCaseFirst(type)}
                             </option>
                         ))}

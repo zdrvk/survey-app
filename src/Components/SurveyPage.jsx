@@ -71,12 +71,20 @@ export default function SurveyPage() {
     }
 
     useEffect(() => {
-        setLoading(true);
+        setLoading(true); // Set loading state to true when component mounts
         if (id) {
-            axiosClient.get(`/survey/${id}`).then(({ data }) => {
-                setSurvey(data.data);
-                setLoading(false);
-            });
+            axiosClient
+                .get(`/survey/${id}`)
+                .then(({ data }) => {
+                    setSurvey(data.data);
+                    setLoading(false); // Set loading state to false after survey data is fetched
+                })
+                .catch((error) => {
+                    setError(error.response.data);
+                    setLoading(false); // Set loading state to false if there's an error
+                });
+        } else {
+            setLoading(false); // Set loading state to false if there's no survey ID (creating new survey)
         }
     }, []);
 
@@ -128,7 +136,7 @@ export default function SurveyPage() {
                                     type='text'
                                     name='title'
                                     id='title'
-                                    value={survey.title}
+                                    value={survey.title || ''}
                                     onChange={(e) =>
                                         setSurvey({ ...survey, title: e.target.value })
                                     }
@@ -230,7 +238,7 @@ export default function SurveyPage() {
                     </div>
                 </form>
             ) : (
-                <div>Loading...</div>
+                <div className='text-center text-lg'>Loading...</div>
             )}
         </Page>
     );
