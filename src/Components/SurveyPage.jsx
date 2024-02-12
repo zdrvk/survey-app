@@ -21,7 +21,7 @@ export default function SurveyPage() {
         description: '',
         image: null,
         image_url: null,
-        expire_date: '',
+        expire_date: new Date(Date.now() + 86400000).toISOString().split('T')[0],
         questions: [],
     });
 
@@ -65,7 +65,7 @@ export default function SurveyPage() {
             }
         }).catch((err) => {
             if (err && err.response) {
-                setError(err.response.data.message);
+                setError(err.response.data);
             }
             console.log(err, err.response);
         });
