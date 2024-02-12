@@ -39,27 +39,28 @@ export default function SurveyPage() {
         reader.readAsDataURL(file);
     };
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        console.log(survey);
+    const onSubmit = (ev) => {
+        ev.preventDefault();
+
         const payload = { ...survey };
         if (payload.image) {
             payload.image = payload.image_url;
         }
         delete payload.image_url;
-
         let res = null;
         if (id) {
             res = axiosClient.put(`/survey/${id}`, payload);
         } else {
-            axiosClient.post('/survey', payload);
+            res = axiosClient.post('/survey', payload);
         }
         res.then((res) => {
             console.log(res);
             navigate('/surveys');
-        }).catch((error) => {
-            setError(error.response.data);
-            console.log(error);
+        }).catch((err) => {
+            if (err && err.response) {
+                setError(err.response.data.message);
+            }
+            console.log(err, err.response);
         });
     };
 
