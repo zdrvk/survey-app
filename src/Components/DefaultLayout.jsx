@@ -4,6 +4,7 @@ import { Bars3Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { NavLink, Navigate, Outlet } from 'react-router-dom';
 import { useStateContext } from '../Contexts/ContextProvider';
 import axiosClient from '../axios';
+import Notification from './Notification';
 
 const navigation = [
     { name: 'Dashboard', to: '/' },
@@ -38,6 +39,7 @@ export default function DefaulLayout() {
 
     return (
         <>
+            <Notification />
             <div className='min-h-full'>
                 <Disclosure as='nav' className='bg-gray-800'>
                     {({ open }) => (

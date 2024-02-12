@@ -6,3 +6,30 @@ a.disabled {
     pointer-events: none; /* Prevents click events */
     opacity: 0.5; /* Makes the element visually appear disabled */
 }
+
+@keyframes fade-in-out {
+    0% {
+        transform: translateY(-0.75rem);
+        opacity: 0;
+    }
+    20% {
+        transform: translateY(0rem);
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(0rem);
+        opacity: 1;
+    }
+    80% {
+        transform: translateY(-0.75rem);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(-0.75rem);
+        opacity: 0;
+    }
+}
+
+.notification-animation {
+    animation: fade-in-out 2.5s ease-in-out both;
+}

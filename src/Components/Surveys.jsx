@@ -8,7 +8,7 @@ import axiosClient from '../axios';
 import PaginationLinks from './PaginationLinks';
 
 export default function Surveys() {
-    const { showToast } = useStateContext();
+    const { showNotification } = useStateContext();
     const [surveys, setSurveys] = useState([]);
     const [meta, setMeta] = useState({});
     const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ export default function Surveys() {
         if (window.confirm('Are you sure you want to delete this survey?')) {
             axiosClient.delete(`/survey/${id}`).then(() => {
                 getSurveys();
-                showToast('The survey was deleted');
+                showNotification('Survey deleted');
             });
         }
     };
@@ -68,7 +68,7 @@ export default function Surveys() {
                         ))}
                     </div>
                     {surveys.length > 0 && (
-                        <PaginationLinks meta={meta} onPageClick={onPageClick} />
+                        <PaginationLinks Links meta={meta} onPageClick={onPageClick} />
                     )}
                 </div>
             )}

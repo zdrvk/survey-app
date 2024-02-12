@@ -5,11 +5,13 @@ import axiosClient from '../axios';
 import TButton from './TButton';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import SurveyQuestions from './SurveyQuestions';
+import { useStateContext } from '../Contexts/ContextProvider';
 
 export default function SurveyPage() {
     const navigate = useNavigate();
     const { id } = useParams();
 
+    const { showNotification } = useStateContext();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [survey, setSurvey] = useState({
@@ -56,6 +58,11 @@ export default function SurveyPage() {
         res.then((res) => {
             console.log(res);
             navigate('/surveys');
+            if (id) {
+                showNotification('Survey updated');
+            } else {
+                showNotification('Survey created');
+            }
         }).catch((err) => {
             if (err && err.response) {
                 setError(err.response.data.message);
