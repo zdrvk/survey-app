@@ -103,7 +103,10 @@ export default function SurveyPage() {
                     <div className='shadow sm:overflow-hidden sm:rounded-md'>
                         <div className='space-y-6 bg-white px-4 py-5 sm:p-6'>
                             <div>
-                                <label className='block text-xl font-bold text-gray-700'>
+                                <label
+                                    htmlFor='photo'
+                                    className='block text-xl font-bold text-gray-700'
+                                >
                                     Photo
                                 </label>
                                 <div className='mt-1 flex items-center'>
@@ -125,6 +128,7 @@ export default function SurveyPage() {
                                     >
                                         <input
                                             type='file'
+                                            id='photo'
                                             className='absolute left-0 top-0 right-0 bottom-0 opacity-0'
                                             onChange={onImageChoose}
                                         />
@@ -227,7 +231,7 @@ export default function SurveyPage() {
                                         </div>
                                         <div className='ml-3 text-sm'>
                                             <label
-                                                htmlFor='comments'
+                                                htmlFor='status'
                                                 className='font-medium text-gray-700'
                                             >
                                                 Make&nbsp;active
