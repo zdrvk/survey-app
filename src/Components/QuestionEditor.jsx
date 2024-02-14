@@ -49,6 +49,11 @@ export default function QuestionEditor({
         setModel({ ...model });
     }
 
+    function deleteOption(op) {
+        model.data.options = model.data.options.filter((option) => option.uuid != op.uuid);
+        setModel({ ...model });
+    }
+
     return (
         <div>
             <div className='flex justify-between mb-3'>
@@ -180,6 +185,7 @@ export default function QuestionEditor({
                                             focus:border-indigo-500'
                                         />
                                         <button
+                                            onClick={(e) => deleteOption(option)}
                                             type='button'
                                             className='
                                         h-8 w-8 ml-2 flex
