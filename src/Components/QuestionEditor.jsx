@@ -93,13 +93,16 @@ export default function QuestionEditor({
             </div>
             <div className='flex gap-3 justify-between mb-3'>
                 <div className='flex-1'>
-                    <label htmlFor='question' className='block text-sm font-medium text-gray-700'>
+                    <label
+                        htmlFor={`question-${index}`}
+                        className='block text-sm font-medium text-gray-700'
+                    >
                         Question
                     </label>
                     <input
                         type='text'
-                        name='question'
-                        id='question'
+                        name={`question-${index}`}
+                        id={`question-${index}`}
                         value={model.question || ''}
                         onChange={(e) => setModel({ ...model, question: e.target.value })}
                         className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
@@ -107,15 +110,15 @@ export default function QuestionEditor({
                 </div>
                 <div>
                     <label
-                        htmlFor='questionType'
+                        htmlFor={`questionType-${index}`}
                         className='block text-sm font-medium text-gray-700 w-40'
                     >
                         Question Type
                     </label>
                     <select
-                        id='questionType'
-                        name='questionType'
-                        value={model.type || ''}
+                        id={`questionType-${index}`}
+                        name={`questionType-${index}`}
+                        value={model.type}
                         onChange={onTypeChange}
                         // onChange={(e) => setModel({ ...model, type: e.target.value })}
                         className='mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
@@ -130,14 +133,14 @@ export default function QuestionEditor({
             </div>
             <div className='mb-3'>
                 <label
-                    htmlFor='questionDescription'
+                    htmlFor={`questionDescription-${index}`}
                     className='block text-sm font-medium text-gray-700'
                 >
                     Description
                 </label>
                 <textarea
-                    name='questionDescription'
-                    id='questionDescription'
+                    name={`questionDescription-${index}`}
+                    id={`questionDescription-${index}`}
                     value={model.description || ''}
                     onChange={(e) => setModel({ ...model, description: e.target.value })}
                     className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
@@ -169,6 +172,7 @@ export default function QuestionEditor({
                                                 (option.text = e.target.value),
                                                     setModel({ ...model });
                                             }}
+                                            id={`option-${option.uuid}`}
                                             className='
                                             py-1 px-2 rounded-md
                                             border-gray-300 border
