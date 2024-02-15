@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Page from './Page';
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import { LinkIcon, PhotoIcon, TrashIcon } from '@heroicons/react/24/outline';
 import axiosClient from '../axios';
 import TButton from './TButton';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
@@ -78,6 +78,8 @@ export default function SurveyPage() {
         });
     }
 
+    function onDelete() {}
+
     useEffect(() => {
         setLoading(true); // Set loading state to true when component mounts
         if (id) {
@@ -97,7 +99,21 @@ export default function SurveyPage() {
     }, []);
 
     return (
-        <Page title={!id ? 'Create new survey' : 'Update survey'}>
+        <Page
+            title={!id ? 'Create new survey' : 'Update survey'}
+            buttons={
+                <div className='flex gap-3'>
+                    <TButton color='green' href={`/survey/public/${survey.slug}`}>
+                        <LinkIcon className='w-4 h-4 mr-1' />
+                        Public Link
+                    </TButton>
+                    <TButton color='red' onClick={onDelete}>
+                        <TrashIcon className='w-4 h-4 mr-1' />
+                        Delete
+                    </TButton>
+                </div>
+            }
+        >
             {!loading ? (
                 <form action='#' method='POST' onSubmit={onSubmit}>
                     <div className='shadow sm:overflow-hidden sm:rounded-md'>
